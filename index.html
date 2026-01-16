@@ -17,9 +17,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            font-family: 'Courier New', monospace;
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
             color: #e94560;
             overflow-x: hidden;
+            line-height: 1.5;
         }
 
         h1 {
@@ -45,12 +46,12 @@
         }
 
         .side-panel {
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.85);
             border: 2px solid #e94560;
             border-radius: 8px;
             padding: 15px;
-            width: 280px;
-            font-size: 12px;
+            width: 300px;
+            font-size: 14px;
         }
 
         .stats-panel h3, .inventory-panel h3, .quest-panel h3 {
@@ -114,9 +115,10 @@
         .quest-item {
             background: #1a1a2a;
             border-left: 3px solid #e94560;
-            padding: 8px;
-            margin: 5px 0;
-            font-size: 11px;
+            padding: 10px 12px;
+            margin: 6px 0;
+            font-size: 13px;
+            border-radius: 0 4px 4px 0;
         }
 
         .quest-item.completed {
@@ -131,28 +133,34 @@
             transform: translateX(-50%);
             background: rgba(0, 0, 0, 0.95);
             border: 3px solid #00ff88;
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 600px;
+            border-radius: 12px;
+            padding: 25px 30px;
+            max-width: 650px;
+            min-width: 400px;
             display: none;
             z-index: 100;
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.3);
         }
 
         #dialogBox .speaker {
             color: #e94560;
             font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 18px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         #dialogBox .message {
             color: #fff;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-size: 16px;
         }
 
         #dialogBox .continue {
             color: #00ff88;
-            font-size: 10px;
-            margin-top: 10px;
+            font-size: 12px;
+            margin-top: 15px;
             animation: blink 1s infinite;
         }
 
@@ -267,11 +275,12 @@
             position: fixed;
             bottom: 10px;
             right: 10px;
-            background: rgba(0, 0, 0, 0.8);
-            padding: 10px;
-            border-radius: 4px;
-            font-size: 10px;
-            color: #888;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #aaa;
+            border: 1px solid #444;
         }
 
         .title-screen {
@@ -367,15 +376,18 @@
         .tips-box {
             background: #1a1a3a;
             border: 1px solid #4444ff;
-            border-radius: 4px;
-            padding: 8px;
-            margin-top: 10px;
-            font-size: 10px;
-            color: #8888ff;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 13px;
+            color: #aabbff;
+            line-height: 1.5;
         }
 
         .tips-box strong {
-            color: #aaaaff;
+            color: #ffdd44;
+            display: block;
+            margin-bottom: 5px;
         }
 
         /* CEO MODE STYLES */
@@ -575,14 +587,14 @@
         <div class="title-art">🎤🏰🎸</div>
         <h1>The Ballad of the CISO</h1>
         <p class="subtitle">A Karaoke Quest Through Corporate Dungeons</p>
-        <p style="color: #888; max-width: 500px; text-align: center; margin: 20px; line-height: 1.6;">
+        <p style="color: #bbb; max-width: 550px; text-align: center; margin: 20px; line-height: 1.8; font-size: 16px;">
             You are a humble GRC Manager, armed with nothing but your compliance frameworks
             and a dream of becoming the legendary CISO. Navigate the treacherous Corporate Dungeon,
             defeat security threats with the power of SONG, and collect the sacred Musical Instruments
             of Governance!
         </p>
         <button class="start-btn" onclick="startGame()">🎵 Begin Your Quest 🎵</button>
-        <p style="color: #666; margin-top: 30px; font-size: 10px;">
+        <p style="color: #888; margin-top: 30px; font-size: 14px;">
             WASD/Arrows to move | SPACE to interact | JKLM for Karaoke battles
         </p>
     </div>
@@ -849,11 +861,11 @@
                 description: "Where dreams come to fill out compliance forms",
                 color: "#2a2a4a",
                 walls: [
-                    // Border walls
-                    ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
+                    // Border walls (with gaps for exits)
+                    ...Array(20).fill().map((_, i) => ({x: i, y: 0})).filter(w => w.x !== 9), // Gap at top for exec floor
                     ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
                     ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
-                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
+                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})).filter(w => w.y !== 7), // Gap at right for IT dungeon
                     // Reception desk
                     {x: 8, y: 3}, {x: 9, y: 3}, {x: 10, y: 3}, {x: 11, y: 3},
                     // Planters
@@ -906,8 +918,8 @@
                 walls: [
                     ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
                     ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
-                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
-                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
+                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})).filter(w => w.y !== 7), // Gap for lobby
+                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})).filter(w => w.y !== 7), // Gap for vendor valley
                     // Server racks
                     {x: 5, y: 3}, {x: 6, y: 3}, {x: 7, y: 3},
                     {x: 12, y: 3}, {x: 13, y: 3}, {x: 14, y: 3},
@@ -981,8 +993,8 @@
                 color: "#2a1a2a",
                 walls: [
                     ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
-                    ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
-                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
+                    ...Array(20).fill().map((_, i) => ({x: i, y: 14})).filter(w => w.x !== 9), // Gap for audit arena
+                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})).filter(w => w.y !== 7), // Gap for IT dungeon
                     ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
                     // Vendor booths
                     {x: 4, y: 3}, {x: 5, y: 3}, {x: 4, y: 4}, {x: 5, y: 4},
@@ -1076,7 +1088,7 @@
                 color: "#3a2a1a",
                 walls: [
                     ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
-                    ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
+                    ...Array(20).fill().map((_, i) => ({x: i, y: 14})).filter(w => w.x !== 9), // Gap for lobby
                     ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
                     ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
                     // Executive offices
@@ -1160,10 +1172,10 @@
                 description: "Where documentation goes to be judged",
                 color: "#1a1a3a",
                 walls: [
-                    ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
+                    ...Array(20).fill().map((_, i) => ({x: i, y: 0})).filter(w => w.x !== 9), // Gap for vendor valley
                     ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
                     ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
-                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
+                    ...Array(15).fill().map((_, i) => ({x: 19, y: i})).filter(w => w.y !== 7), // Gap for CISO throne
                     // Arena seating
                     {x: 2, y: 2}, {x: 3, y: 2}, {x: 4, y: 2}, {x: 5, y: 2},
                     {x: 14, y: 2}, {x: 15, y: 2}, {x: 16, y: 2}, {x: 17, y: 2},
@@ -1249,7 +1261,7 @@
                 walls: [
                     ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
                     ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
-                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
+                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})).filter(w => w.y !== 7), // Gap for audit arena
                     ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
                     // Throne room pillars
                     {x: 4, y: 3}, {x: 15, y: 3},
@@ -1333,13 +1345,13 @@
             },
             // SECRET ZONE - THE SHADOW IT CLOUD
             shadow_it: {
-                name: "The Shadow IT Cloud ☁️",
+                name: "The Shadow IT Cloud",
                 description: "Unsanctioned. Undocumented. Unstoppable.",
                 color: "#0a0a2a",
                 walls: [
                     ...Array(20).fill().map((_, i) => ({x: i, y: 0})),
                     ...Array(20).fill().map((_, i) => ({x: i, y: 14})),
-                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})),
+                    ...Array(15).fill().map((_, i) => ({x: 0, y: i})).filter(w => w.y !== 7), // Gap back to IT dungeon
                     ...Array(15).fill().map((_, i) => ({x: 19, y: i})),
                     // Floating cloud platforms
                     {x: 5, y: 4}, {x: 6, y: 4}, {x: 13, y: 4}, {x: 14, y: 4},
